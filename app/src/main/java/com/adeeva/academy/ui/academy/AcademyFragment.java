@@ -29,6 +29,8 @@ public class AcademyFragment extends Fragment {
     private RecyclerView rvCourse;
     private ProgressBar progressBar;
     private AcademyAdapter academyAdapter;
+    private AcademyViewModel viewModel;
+    private List<CourseEntity> courses;
 
 
     public AcademyFragment() {
@@ -59,6 +61,8 @@ public class AcademyFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         if (getActivity() != null){
+            viewModel = ViewModelProviders.of(this).get(AcademyViewModel.class);
+            courses = viewModel.getCourses();
 
             academyAdapter = new AcademyAdapter(getActivity());
             academyAdapter.setListCourses(DataDummy.generateDummyCourses());
