@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.adeeva.academy.R;
 import com.adeeva.academy.data.CourseEntity;
+import com.adeeva.academy.data.ModuleEntity;
 import com.adeeva.academy.ui.reader.CourseReaderActivity;
 import com.adeeva.academy.utils.DataDummy;
 import com.adeeva.academy.utils.GlideApp;
@@ -14,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,8 +26,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class DetailCourseActivity extends AppCompatActivity {
 
+    private DetailCourseViewModel viewModel;
+    private List<ModuleEntity> modules;
 
     public static final String EXTRA_COURSE = "extra_course";
     private Button btnStart;
@@ -47,6 +53,8 @@ public class DetailCourseActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        viewModel = ViewModelProviders.of(this).get(DetailCourseViewModel.class);
+
         adapter = new DetailCourseAdapter();
 
         progressBar = findViewById(R.id.progress_bar);
@@ -61,10 +69,14 @@ public class DetailCourseActivity extends AppCompatActivity {
         if (extras != null) {
             String courseId = extras.getString(EXTRA_COURSE);
             if (courseId != null) {
-                adapter.setModules(DataDummy.generateDummyModules(courseId));
-
-                populateCourse(courseId);
+                viewModel.setCourseId(courseId);
+                modules = viewModel.getModules();
+                adapter.setModules(modules);
             }
+        }
+
+        if (viewModel.getCourse() != null){
+            populateCourse(viewModel.getCourse());
         }
 
         rvModule.setNestedScrollingEnabled(false);
@@ -75,8 +87,7 @@ public class DetailCourseActivity extends AppCompatActivity {
         rvModule.addItemDecoration(dividerItemDecoration);
     }
 
-    private void populateCourse(String courseId) {
-        CourseEntity courseEntity = DataDummy.getCourse(courseId);
+    private void populateCourse(CourseEntity courseEntity) {
         textTitle.setText(courseEntity.getTitle());
         textDesc.setText(courseEntity.getDescription());
         textDate.setText(String.format("Deadline %s", courseEntity.getDeadline()));
@@ -88,7 +99,7 @@ public class DetailCourseActivity extends AppCompatActivity {
 
         btnStart.setOnClickListener(v -> {
             Intent intent = new Intent(DetailCourseActivity.this, CourseReaderActivity.class);
-            intent.putExtra(CourseReaderActivity.EXTRA_COURSE_ID, courseId);
+            intent.putExtra(CourseReaderActivity.EXTRA_COURSE_ID, viewModel.getCourseId());
             v.getContext().startActivity(intent);
         });
     }
