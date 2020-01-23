@@ -39,6 +39,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.annotation:annotation:$androidXAnnotations"
     implementation "androidx.legacy:legacy-support-v4:$androidXLegacySupport"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$archLifecycleVersion"
 
     // Dependencies for Architecture Component
     implementation "androidx.room:room-runtime:2.2.3"

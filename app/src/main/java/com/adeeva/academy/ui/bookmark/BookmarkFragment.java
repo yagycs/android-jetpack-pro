@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,7 +52,8 @@ public class BookmarkFragment extends Fragment implements BookmarkFragmentCallba
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getActivity() != null) {
-            List<CourseEntity> courses = DataDummy.generateDummyCourses();
+            BookmarkViewModel viewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(BookmarkViewModel.class);
+            List<CourseEntity> courses = viewModel.getBookmarks();
 
             BookmarkAdapter adapter = new BookmarkAdapter(this);
             adapter.setCourses(courses);
@@ -70,7 +72,7 @@ public class BookmarkFragment extends Fragment implements BookmarkFragmentCallba
                     .from(getActivity())
                     .setType(mimeType)
                     .setChooserTitle("Bagikan aplikasi ini sekarang.")
-                    .setText(getResources().getString(R.string.share_text, course.getTitle()))
+                    .setText(String.format("Segera daftar kelas %s di dicoding.com", course.getTitle()))
                     .startChooser();
         }
     }

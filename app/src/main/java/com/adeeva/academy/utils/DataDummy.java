@@ -8,7 +8,7 @@ import java.util.List;
 
 public class DataDummy {
 
-    public static List<CourseEntity> generateDummyCourses() {
+    public static ArrayList<CourseEntity> generateDummyCourses() {
 
         ArrayList<CourseEntity> courses = new ArrayList<>();
 
@@ -45,7 +45,7 @@ public class DataDummy {
         return courses;
     }
 
-    public static List<ModuleEntity> generateDummyModules(String courseId) {
+    public static ArrayList<ModuleEntity> generateDummyModules(String courseId) {
 
         ArrayList<ModuleEntity> modules = new ArrayList<>();
 
