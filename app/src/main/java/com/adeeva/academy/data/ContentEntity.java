@@ -1,6 +1,7 @@
 package com.adeeva.academy.data;
 
 public class ContentEntity {
+
     private String mContent;
 
     public ContentEntity(String content) {

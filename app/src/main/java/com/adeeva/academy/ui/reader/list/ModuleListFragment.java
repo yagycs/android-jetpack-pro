@@ -44,6 +44,7 @@ public class ModuleListFragment extends Fragment implements MyAdapterClickListen
         return new ModuleListFragment();
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,7 +55,6 @@ public class ModuleListFragment extends Fragment implements MyAdapterClickListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         recyclerView = view.findViewById(R.id.rv_module);
         progressBar = view.findViewById(R.id.progress_bar);
     }
@@ -62,17 +62,16 @@ public class ModuleListFragment extends Fragment implements MyAdapterClickListen
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         if (getActivity() != null) {
             adapter = new ModuleListAdapter(this);
-            populateRecyclerView(DataDummy.generateDummyModules("14"));
+            populateRecyclerView(DataDummy.generateDummyModules("a14"));
         }
+
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
         courseReaderCallback = ((CourseReaderActivity) context);
     }
 

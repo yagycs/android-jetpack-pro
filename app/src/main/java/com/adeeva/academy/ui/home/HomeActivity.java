@@ -3,64 +3,26 @@ package com.adeeva.academy.ui.home;
 import android.os.Bundle;
 
 import com.adeeva.academy.R;
-import com.adeeva.academy.ui.academy.AcademyFragment;
-import com.adeeva.academy.ui.bookmark.BookmarkFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.view.MenuItem;
-import android.widget.TextView;
+import androidx.viewpager.widget.ViewPager;
 
 public class HomeActivity extends AppCompatActivity {
-
-    private final String SELECTED_MENU = "selected_menu";
-    private BottomNavigationView navView;
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = item -> {
-
-        Fragment fragment = null;
-
-        if (item.getItemId() == R.id.action_home) {
-            fragment = AcademyFragment.newInstance();
-        } else if (item.getItemId() == R.id.action_bookmark) {
-            fragment = BookmarkFragment.newInstance();
-        }
-
-        if (fragment != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .replace(R.id.container, fragment)
-                    .commit();
-        }
-        return true;
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(sectionsPagerAdapter);
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
 
-        navView = findViewById(R.id.nav_view);
-        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        if (savedInstanceState != null) {
-            savedInstanceState.getInt(SELECTED_MENU);
-        } else {
-            navView.setSelectedItemId(R.id.action_home);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setElevation(0);
         }
     }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putInt(SELECTED_MENU, navView.getSelectedItemId());
-    }
-
 }

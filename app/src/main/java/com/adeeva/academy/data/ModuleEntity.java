@@ -31,7 +31,7 @@ public class ModuleEntity {
         return mCourseId;
     }
 
-    public void setCourseId(String courseId) {
+    public void setCourseid(String courseId) {
         this.mCourseId = courseId;
     }
 

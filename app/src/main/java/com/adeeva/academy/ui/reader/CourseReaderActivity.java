@@ -10,7 +10,7 @@ import com.adeeva.academy.R;
 import com.adeeva.academy.ui.reader.content.ModuleContentFragment;
 import com.adeeva.academy.ui.reader.list.ModuleListFragment;
 
-public class CourseReaderActivity extends AppCompatActivity implements CourseReaderCallback{
+public class CourseReaderActivity extends AppCompatActivity implements CourseReaderCallback {
 
     public static final String EXTRA_COURSE_ID = "extra_course_id";
 
@@ -20,16 +20,16 @@ public class CourseReaderActivity extends AppCompatActivity implements CourseRea
         setContentView(R.layout.activity_course_reader);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
+        if (bundle != null) {
             String courseId = bundle.getString(EXTRA_COURSE_ID);
-            if (courseId != null){
+            if (courseId != null) {
                 populateFragment();
             }
         }
     }
 
     @Override
-    public void moveTo(int position, String moduleId){
+    public void moveTo(int position, String moduleId) {
         Fragment fragment = ModuleContentFragment.newInstance();
         getSupportFragmentManager().beginTransaction().add(R.id.frame_container, fragment, ModuleContentFragment.TAG)
                 .addToBackStack(null)
@@ -37,23 +37,22 @@ public class CourseReaderActivity extends AppCompatActivity implements CourseRea
     }
 
     @Override
-    public void onBackPressed(){
-        if (getSupportFragmentManager().getBackStackEntryCount() <= 1){
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() <= 1) {
             finish();
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
 
-    private void populateFragment(){
+    private void populateFragment() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(ModuleListFragment.TAG);
-        if (fragment == null){
+        if (fragment == null) {
             fragment = ModuleListFragment.newInstance();
             fragmentTransaction.add(R.id.frame_container, fragment, ModuleListFragment.TAG);
             fragmentTransaction.addToBackStack(null);
         }
-
         fragmentTransaction.commit();
     }
 }

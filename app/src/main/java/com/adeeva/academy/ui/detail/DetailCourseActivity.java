@@ -5,9 +5,11 @@ import android.os.Bundle;
 
 import com.adeeva.academy.R;
 import com.adeeva.academy.data.CourseEntity;
+import com.adeeva.academy.data.ModuleEntity;
 import com.adeeva.academy.ui.reader.CourseReaderActivity;
 import com.adeeva.academy.utils.DataDummy;
 import com.adeeva.academy.utils.GlideApp;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -24,16 +26,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class DetailCourseActivity extends AppCompatActivity {
+import java.util.List;
 
+public class DetailCourseActivity extends AppCompatActivity {
 
     public static final String EXTRA_COURSE = "extra_course";
     private Button btnStart;
     private TextView textTitle;
     private TextView textDesc;
     private TextView textDate;
-    private RecyclerView rvModule;
-    private DetailCourseAdapter adapter;
     private ImageView imagePoster;
     private ProgressBar progressBar;
 
@@ -47,23 +48,29 @@ public class DetailCourseActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        adapter = new DetailCourseAdapter();
-
-        progressBar = findViewById(R.id.progress_bar);
         btnStart = findViewById(R.id.btn_start);
         textTitle = findViewById(R.id.text_title);
         textDesc = findViewById(R.id.text_description);
         textDate = findViewById(R.id.text_date);
-        rvModule = findViewById(R.id.rv_module);
+        RecyclerView rvModule = findViewById(R.id.rv_module);
         imagePoster = findViewById(R.id.image_poster);
+        progressBar = findViewById(R.id.progress_bar);
+
+        DetailCourseAdapter adapter = new DetailCourseAdapter();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String courseId = extras.getString(EXTRA_COURSE);
             if (courseId != null) {
-                adapter.setModules(DataDummy.generateDummyModules(courseId));
+                List<ModuleEntity> modules = DataDummy.generateDummyModules(courseId);
+                adapter.setModules(modules);
 
-                populateCourse(courseId);
+                for (int i = 0; i < DataDummy.generateDummyCourses().size(); i++) {
+                    CourseEntity courseEntity = DataDummy.generateDummyCourses().get(i);
+                    if (courseEntity.getCourseId().equals(courseId)) {
+                        populateCourse(courseEntity);
+                    }
+                }
             }
         }
 
@@ -75,22 +82,21 @@ public class DetailCourseActivity extends AppCompatActivity {
         rvModule.addItemDecoration(dividerItemDecoration);
     }
 
-    private void populateCourse(String courseId) {
-        CourseEntity courseEntity = DataDummy.getCourse(courseId);
+    private void populateCourse(CourseEntity courseEntity) {
         textTitle.setText(courseEntity.getTitle());
         textDesc.setText(courseEntity.getDescription());
-        textDate.setText(String.format("Deadline %s", courseEntity.getDeadline()));
+        textDate.setText(getResources().getString(R.string.deadline_date, courseEntity.getDeadline()));
 
-        GlideApp.with(getApplicationContext())
+        Glide.with(this)
                 .load(courseEntity.getImagePath())
-                .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
+                .apply(RequestOptions.placeholderOf(R.drawable.ic_loading)
+                        .error(R.drawable.ic_error))
                 .into(imagePoster);
 
         btnStart.setOnClickListener(v -> {
             Intent intent = new Intent(DetailCourseActivity.this, CourseReaderActivity.class);
-            intent.putExtra(CourseReaderActivity.EXTRA_COURSE_ID, courseId);
-            v.getContext().startActivity(intent);
+            intent.putExtra(CourseReaderActivity.EXTRA_COURSE_ID, courseEntity.getCourseId());
+            startActivity(intent);
         });
     }
-
 }

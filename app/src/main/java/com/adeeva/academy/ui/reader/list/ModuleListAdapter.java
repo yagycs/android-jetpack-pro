@@ -10,45 +10,43 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.adeeva.academy.R;
 import com.adeeva.academy.data.ModuleEntity;
-import com.adeeva.academy.ui.detail.DetailCourseAdapter.ModuleViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModuleListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ModuleViewHolder> {
 
     private final MyAdapterClickListener listener;
-    private List<ModuleEntity> modules = new ArrayList<>();
+    private List<ModuleEntity> listModules = new ArrayList<>();
 
     ModuleListAdapter(MyAdapterClickListener listener) {
         this.listener = listener;
     }
 
-    void setModules(List<ModuleEntity> modules) {
-        if (modules == null) return;
-        this.modules.clear();
-        this.modules.addAll(modules);
+    void setModules(List<ModuleEntity> listModules) {
+        if (listModules == null) return;
+        this.listModules.clear();
+        this.listModules.addAll(listModules);
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ModuleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ModuleViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.items_module_list_custom, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int position) {
-        ModuleEntity module = modules.get(position);
-        ModuleViewHolder moduleViewHolder = (ModuleViewHolder) viewHolder;
-        moduleViewHolder.bind(module.getTitle());
-        moduleViewHolder.itemView.setOnClickListener(v -> {
-            listener.onItemClicked(viewHolder.getAdapterPosition(), modules.get(moduleViewHolder.getAdapterPosition()).getModuleId());
-        });
+    public void onBindViewHolder(ModuleViewHolder viewHolder, int position) {
+        ModuleEntity module = listModules.get(position);
+        viewHolder.bind(module);
+        viewHolder.itemView.setOnClickListener(v ->
+                listener.onItemClicked(viewHolder.getAdapterPosition(), listModules.get(viewHolder.getAdapterPosition()).getModuleId())
+        );
     }
 
     @Override
     public int getItemCount() {
-        return modules.size();
+        return listModules.size();
     }
 
     class ModuleViewHolder extends RecyclerView.ViewHolder {
@@ -61,8 +59,8 @@ public class ModuleListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             textLastSeen = itemView.findViewById(R.id.text_last_seen);
         }
 
-        void bind(String title) {
-            textTitle.setText(title);
+        void bind(ModuleEntity module) {
+            textTitle.setText(module.getTitle());
         }
     }
 }

@@ -19,21 +19,18 @@ import com.adeeva.academy.R;
 import com.adeeva.academy.data.CourseEntity;
 import com.adeeva.academy.utils.DataDummy;
 
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class BookmarkFragment extends Fragment implements BookmarkFragmentCallback {
-    private BookmarkAdapter adapter;
     private RecyclerView rvBookmark;
     private ProgressBar progressBar;
 
     public BookmarkFragment() {
         // Required empty public constructor
-    }
-
-    public static Fragment newInstance() {
-        return new BookmarkFragment();
     }
 
     @Override
@@ -46,18 +43,18 @@ public class BookmarkFragment extends Fragment implements BookmarkFragmentCallba
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         rvBookmark = view.findViewById(R.id.rv_bookmark);
         progressBar = view.findViewById(R.id.progress_bar);
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState){
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (getActivity() != null) {
+            List<CourseEntity> courses = DataDummy.generateDummyCourses();
 
-        if (getActivity() != null){
-            adapter = new BookmarkAdapter(getActivity(), this);
-            adapter.setListCourses(DataDummy.generateDummyCourses());
+            BookmarkAdapter adapter = new BookmarkAdapter(this);
+            adapter.setCourses(courses);
 
             rvBookmark.setLayoutManager(new LinearLayoutManager(getContext()));
             rvBookmark.setHasFixedSize(true);
@@ -67,13 +64,13 @@ public class BookmarkFragment extends Fragment implements BookmarkFragmentCallba
 
     @Override
     public void onShareClick(CourseEntity course) {
-        if (getActivity() != null){
+        if (getActivity() != null) {
             String mimeType = "text/plain";
             ShareCompat.IntentBuilder
                     .from(getActivity())
                     .setType(mimeType)
-                    .setChooserTitle("Bagikan aplikasi ini sekarang")
-                    .setText(String.format("Segera daftar kelas %s di dicoding.com", course.getTitle()))
+                    .setChooserTitle("Bagikan aplikasi ini sekarang.")
+                    .setText(getResources().getString(R.string.share_text, course.getTitle()))
                     .startChooser();
         }
     }

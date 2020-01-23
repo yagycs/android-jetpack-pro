@@ -15,72 +15,66 @@ import com.adeeva.academy.R;
 import com.adeeva.academy.data.CourseEntity;
 import com.adeeva.academy.ui.detail.DetailCourseActivity;
 import com.adeeva.academy.utils.GlideApp;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AcademyAdapter extends RecyclerView.Adapter<AcademyAdapter.AcademyViewHolder> {
-    private final Activity activity;
-    private List<CourseEntity> mCourses = new ArrayList<>();
+public class AcademyAdapter extends RecyclerView.Adapter<AcademyAdapter.CourseViewHolder> {
+    private List<CourseEntity> listCourses = new ArrayList<>();
 
-    AcademyAdapter(Activity activity) {
-        this.activity = activity;
-    }
-
-    private List<CourseEntity> getListCourses() {
-        return mCourses;
-    }
-
-    void setListCourses(List<CourseEntity> listCourses) {
+    void setCourses(List<CourseEntity> listCourses) {
         if (listCourses == null) return;
-        this.mCourses.clear();
-        this.mCourses.addAll(listCourses);
+        this.listCourses.clear();
+        this.listCourses.addAll(listCourses);
     }
 
     @NonNull
     @Override
-    public AcademyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items_academy, parent, false);
-        return new AcademyViewHolder(view);
+        return new CourseViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AcademyViewHolder holder, int position) {
-        holder.tvTitle.setText(getListCourses().get(position).getTitle());
-        holder.tvDescription.setText(getListCourses().get(position).getDescription());
-        //holder.tvDate.setText(String.format("Deadline %s", getListCourses().get(position).getCourseId()));
-        holder.tvDate.setText(String.format("Deadline %s", getListCourses().get(position).getDeadline()));
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(activity, DetailCourseActivity.class);
-            intent.putExtra(DetailCourseActivity.EXTRA_COURSE, getListCourses().get(position).getCourseId());
-            activity.startActivity(intent);
-        });
-
-        GlideApp.with(holder.itemView.getContext())
-                .load(getListCourses().get(position).getImagePath())
-                .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
-                .into(holder.imgPoster);
+    public void onBindViewHolder(@NonNull final CourseViewHolder holder, int position) {
+        CourseEntity course = listCourses.get(position);
+        holder.bind(course);
     }
 
     @Override
     public int getItemCount() {
-        return getListCourses().size();
+        return listCourses.size();
     }
 
-    public class AcademyViewHolder extends RecyclerView.ViewHolder {
+    class CourseViewHolder extends RecyclerView.ViewHolder {
         final TextView tvTitle;
         final TextView tvDescription;
         final TextView tvDate;
         final ImageView imgPoster;
 
-        public AcademyViewHolder(@NonNull View itemView) {
+        CourseViewHolder(View itemView) {
             super(itemView);
-
             tvTitle = itemView.findViewById(R.id.tv_item_title);
+            imgPoster = itemView.findViewById(R.id.img_poster);
             tvDescription = itemView.findViewById(R.id.tv_item_description);
             tvDate = itemView.findViewById(R.id.tv_item_date);
-            imgPoster = itemView.findViewById(R.id.img_poster);
+        }
+
+        void bind(CourseEntity course) {
+            tvTitle.setText(course.getTitle());
+            tvDescription.setText(course.getDescription());
+            tvDate.setText(itemView.getResources().getString(R.string.deadline_date, course.getDeadline()));
+            itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(itemView.getContext(), DetailCourseActivity.class);
+                intent.putExtra(DetailCourseActivity.EXTRA_COURSE, course.getCourseId());
+                itemView.getContext().startActivity(intent);
+            });
+            Glide.with(itemView.getContext())
+                    .load(course.getImagePath())
+                    .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
+                    .into(imgPoster);
         }
     }
 }
