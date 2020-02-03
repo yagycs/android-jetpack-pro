@@ -4,16 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.adeeva.academy.R;
-import com.adeeva.academy.data.CourseEntity;
-import com.adeeva.academy.data.ModuleEntity;
+import com.adeeva.academy.data.source.local.entity.CourseEntity;
+import com.adeeva.academy.data.source.local.entity.ModuleEntity;
 import com.adeeva.academy.ui.reader.CourseReaderActivity;
-import com.adeeva.academy.utils.DataDummy;
-import com.adeeva.academy.utils.GlideApp;
 import com.adeeva.academy.viewmodel.ViewModelFactory;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,7 +18,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;

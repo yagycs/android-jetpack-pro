@@ -1,6 +1,6 @@
 package com.adeeva.academy.ui.academy;
 
-import com.adeeva.academy.data.CourseEntity;
+import com.adeeva.academy.data.source.local.entity.CourseEntity;
 
 import org.junit.Before;
 import org.junit.Test;

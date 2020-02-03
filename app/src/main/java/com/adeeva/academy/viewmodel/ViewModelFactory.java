@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.adeeva.academy.data.source.AcademyRepository;
+import com.adeeva.academy.data.AcademyRepository;
 import com.adeeva.academy.di.Injection;
 import com.adeeva.academy.ui.academy.AcademyViewModel;
 import com.adeeva.academy.ui.bookmark.BookmarkViewModel;

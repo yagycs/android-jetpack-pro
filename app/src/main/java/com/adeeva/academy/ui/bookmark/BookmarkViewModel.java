@@ -2,9 +2,8 @@ package com.adeeva.academy.ui.bookmark;
 
 import androidx.lifecycle.ViewModel;
 
-import com.adeeva.academy.data.CourseEntity;
-import com.adeeva.academy.data.source.AcademyRepository;
-import com.adeeva.academy.utils.DataDummy;
+import com.adeeva.academy.data.source.local.entity.CourseEntity;
+import com.adeeva.academy.data.AcademyRepository;
 
 import java.util.List;
 

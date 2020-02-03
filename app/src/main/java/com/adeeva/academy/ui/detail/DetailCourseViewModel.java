@@ -2,12 +2,10 @@ package com.adeeva.academy.ui.detail;
 
 import androidx.lifecycle.ViewModel;
 
-import com.adeeva.academy.data.CourseEntity;
-import com.adeeva.academy.data.ModuleEntity;
-import com.adeeva.academy.data.source.AcademyRepository;
-import com.adeeva.academy.utils.DataDummy;
+import com.adeeva.academy.data.source.local.entity.CourseEntity;
+import com.adeeva.academy.data.source.local.entity.ModuleEntity;
+import com.adeeva.academy.data.AcademyRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DetailCourseViewModel extends ViewModel {

@@ -1,4 +1,4 @@
-package com.adeeva.academy.data;
+package com.adeeva.academy.data.source.local.entity;
 
 public class ModuleEntity {
     public ContentEntity contentEntity;

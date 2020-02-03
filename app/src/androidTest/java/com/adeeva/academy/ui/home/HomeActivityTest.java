@@ -4,7 +4,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.rule.ActivityTestRule;
 
 import com.adeeva.academy.R;
-import com.adeeva.academy.data.CourseEntity;
+import com.adeeva.academy.data.source.local.entity.CourseEntity;
 import com.adeeva.academy.utils.DataDummy;
 
 import org.junit.Rule;
@@ -18,7 +18,6 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.junit.Assert.*;
 
 public class HomeActivityTest {
 

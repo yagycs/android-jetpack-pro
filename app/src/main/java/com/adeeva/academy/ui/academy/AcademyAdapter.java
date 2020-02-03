@@ -1,6 +1,5 @@
 package com.adeeva.academy.ui.academy;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adeeva.academy.R;
-import com.adeeva.academy.data.CourseEntity;
+import com.adeeva.academy.data.source.local.entity.CourseEntity;
 import com.adeeva.academy.ui.detail.DetailCourseActivity;
-import com.adeeva.academy.utils.GlideApp;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 

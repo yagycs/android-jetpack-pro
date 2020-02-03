@@ -1,10 +1,9 @@
 package com.adeeva.academy.utils;
 
-import com.adeeva.academy.data.CourseEntity;
-import com.adeeva.academy.data.ModuleEntity;
+import com.adeeva.academy.data.source.local.entity.CourseEntity;
+import com.adeeva.academy.data.source.local.entity.ModuleEntity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DataDummy {
 

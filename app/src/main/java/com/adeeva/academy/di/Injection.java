@@ -2,7 +2,7 @@ package com.adeeva.academy.di;
 
 import android.content.Context;
 
-import com.adeeva.academy.data.source.AcademyRepository;
+import com.adeeva.academy.data.AcademyRepository;
 import com.adeeva.academy.data.source.remote.RemoteDataSource;
 import com.adeeva.academy.utils.JsonHelper;
 

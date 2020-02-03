@@ -15,8 +15,7 @@ import android.os.Bundle;
         import android.widget.ProgressBar;
 
         import com.adeeva.academy.R;
-        import com.adeeva.academy.data.ContentEntity;
-        import com.adeeva.academy.data.ModuleEntity;
+import com.adeeva.academy.data.source.local.entity.ModuleEntity;
         import com.adeeva.academy.ui.reader.CourseReaderViewModel;
 import com.adeeva.academy.viewmodel.ViewModelFactory;
 

@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,8 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.adeeva.academy.R;
-import com.adeeva.academy.data.CourseEntity;
-import com.adeeva.academy.utils.DataDummy;
+import com.adeeva.academy.data.source.local.entity.CourseEntity;
 import com.adeeva.academy.viewmodel.ViewModelFactory;
 
 import java.util.List;

@@ -2,10 +2,8 @@ package com.adeeva.academy.ui.reader;
 
 import androidx.lifecycle.ViewModel;
 
-import com.adeeva.academy.data.ContentEntity;
-import com.adeeva.academy.data.ModuleEntity;
-import com.adeeva.academy.data.source.AcademyRepository;
-import com.adeeva.academy.utils.DataDummy;
+import com.adeeva.academy.data.source.local.entity.ModuleEntity;
+import com.adeeva.academy.data.AcademyRepository;
 
 import java.util.ArrayList;
 

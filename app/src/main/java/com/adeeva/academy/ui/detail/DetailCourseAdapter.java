@@ -1,29 +1,15 @@
 package com.adeeva.academy.ui.detail;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adeeva.academy.R;
-import com.adeeva.academy.data.CourseEntity;
-import com.adeeva.academy.data.ModuleEntity;
-import com.adeeva.academy.ui.reader.CourseReaderActivity;
-import com.adeeva.academy.utils.DataDummy;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
+import com.adeeva.academy.data.source.local.entity.ModuleEntity;
 
 import java.util.ArrayList;
 import java.util.List;

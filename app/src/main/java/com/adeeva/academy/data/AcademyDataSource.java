@@ -1,7 +1,7 @@
-package com.adeeva.academy.data.source;
+package com.adeeva.academy.data;
 
-import com.adeeva.academy.data.CourseEntity;
-import com.adeeva.academy.data.ModuleEntity;
+import com.adeeva.academy.data.source.local.entity.CourseEntity;
+import com.adeeva.academy.data.source.local.entity.ModuleEntity;
 
 import java.util.List;
 

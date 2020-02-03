@@ -1,7 +1,7 @@
 package com.adeeva.academy.ui.detail;
 
-import com.adeeva.academy.data.CourseEntity;
-import com.adeeva.academy.data.ModuleEntity;
+import com.adeeva.academy.data.source.local.entity.CourseEntity;
+import com.adeeva.academy.data.source.local.entity.ModuleEntity;
 import com.adeeva.academy.utils.DataDummy;
 
 import org.junit.Before;
