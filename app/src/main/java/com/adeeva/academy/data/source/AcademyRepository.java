@@ -23,11 +23,11 @@ public class AcademyRepository implements AcademyDataSource {
         this.remoteDataSource = remoteDataSource;
     }
 
-    public static AcademyRepository getInstance(RemoteDataSource remotedata){
-        if (INSTANCE == null){
-            synchronized (AcademyRepository.class){
-                if (INSTANCE == null){
-                    INSTANCE = new AcademyRepository(remotedata);
+    public static AcademyRepository getInstance(RemoteDataSource remoteData) {
+        if (INSTANCE == null) {
+            synchronized (AcademyRepository.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new AcademyRepository(remoteData);
                 }
             }
         }
@@ -38,9 +38,8 @@ public class AcademyRepository implements AcademyDataSource {
     public ArrayList<CourseEntity> getAllCourses() {
         List<CourseResponse> courseResponses = remoteDataSource.getAllCourses();
         ArrayList<CourseEntity> courseList = new ArrayList<>();
-        for (CourseResponse response : courseResponses){
-            CourseEntity course = new CourseEntity(
-                    response.getId(),
+        for (CourseResponse response : courseResponses) {
+            CourseEntity course = new CourseEntity(response.getId(),
                     response.getTitle(),
                     response.getDescription(),
                     response.getDate(),
@@ -53,13 +52,29 @@ public class AcademyRepository implements AcademyDataSource {
     }
 
     @Override
+    public ArrayList<CourseEntity> getBookmarkedCourses() {
+        List<CourseResponse> courseResponses = remoteDataSource.getAllCourses();
+        ArrayList<CourseEntity> courseList = new ArrayList<>();
+        for (CourseResponse response : courseResponses) {
+            CourseEntity course = new CourseEntity(response.getId(),
+                    response.getTitle(),
+                    response.getDescription(),
+                    response.getDate(),
+                    false,
+                    response.getImagePath());
+            courseList.add(course);
+        }
+        return courseList;
+    }
+
+    // Pada metode ini di modul selanjutnya akan mengembalikan kelas POJO baru, gabungan antara course dengan module-nya.
+    @Override
     public CourseEntity getCourseWithModules(final String courseId) {
         List<CourseResponse> courseResponses = remoteDataSource.getAllCourses();
         CourseEntity course = null;
-        for (CourseResponse response : courseResponses){
-            if (response.getId().equals(courseId)){
-                course = new CourseEntity(
-                        response.getId(),
+        for (CourseResponse response : courseResponses) {
+            if (response.getId().equals(courseId)) {
+                course = new CourseEntity(response.getId(),
                         response.getTitle(),
                         response.getDescription(),
                         response.getDate(),
@@ -72,10 +87,10 @@ public class AcademyRepository implements AcademyDataSource {
 
     @Override
     public ArrayList<ModuleEntity> getAllModulesByCourse(String courseId) {
+        List<ModuleResponse> moduleResponses = remoteDataSource.getModules(courseId);
         ArrayList<ModuleEntity> moduleList = new ArrayList<>();
-        for (ModuleResponse response : moduleResponses){
-            ModuleEntity course = new ModuleEntity(
-                    response.getModuleId(),
+        for (ModuleResponse response : moduleResponses) {
+            ModuleEntity course = new ModuleEntity(response.getModuleId(),
                     response.getCourseId(),
                     response.getTitle(),
                     response.getPosition(),
@@ -86,33 +101,14 @@ public class AcademyRepository implements AcademyDataSource {
         return moduleList;
     }
 
-    @Override
-    public ArrayList<CourseEntity> getBookmarkedCourses() {
-        List<CourseResponse> courseResponses = remoteDataSource.getAllCourses();
-        ArrayList<CourseEntity> courseList = new ArrayList<>();
-        for (CourseResponse response : courseResponses){
-            CourseEntity course = new CourseEntity(
-                    response.getId(),
-                    response.getTitle(),
-                    response.getDescription(),
-                    response.getDate(),
-                    false,
-                    response.getImagePath());
-
-            courseList.add(course);
-        }
-        return courseList;
-    }
 
     @Override
     public ModuleEntity getContent(String courseId, String moduleId) {
         List<ModuleResponse> moduleResponses = remoteDataSource.getModules(courseId);
         ModuleEntity module = null;
-        List<ModuleResponse> moduleResponses = remoteDataSource.getModules(courseId);
-        for (ModuleResponse response : moduleResponses){
-            if (response.getModuleId().equals(moduleId)){
-                module = new ModuleEntity(
-                        response.getModuleId(),
+        for (ModuleResponse response : moduleResponses) {
+            if (response.getModuleId().equals(moduleId)) {
+                module = new ModuleEntity(response.getModuleId(),
                         response.getCourseId(),
                         response.getTitle(),
                         response.getPosition(),

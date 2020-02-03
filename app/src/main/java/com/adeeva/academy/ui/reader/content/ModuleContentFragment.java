@@ -18,6 +18,7 @@ import android.os.Bundle;
         import com.adeeva.academy.data.ContentEntity;
         import com.adeeva.academy.data.ModuleEntity;
         import com.adeeva.academy.ui.reader.CourseReaderViewModel;
+import com.adeeva.academy.viewmodel.ViewModelFactory;
 
 
 /**
@@ -54,8 +55,9 @@ public class ModuleContentFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         if (getActivity() != null) {
+            ViewModelFactory factory = ViewModelFactory.getInstance(requireActivity());
             //Jika Anda ganti requireActivity() dengan this, maka Fragment tidak akan mengambil ViewModel dari Activity tetapi akan membuat ViewModel baru.
-            CourseReaderViewModel viewModel = new ViewModelProvider(requireActivity(), new ViewModelProvider.NewInstanceFactory()).get(CourseReaderViewModel.class);
+            CourseReaderViewModel viewModel = new ViewModelProvider(requireActivity(), factory).get(CourseReaderViewModel.class);
             ModuleEntity module = viewModel.getSelectedModule();
             populateWebView(module);
         }

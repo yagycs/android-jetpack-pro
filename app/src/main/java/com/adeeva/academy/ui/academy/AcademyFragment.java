@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import com.adeeva.academy.R;
 import com.adeeva.academy.data.CourseEntity;
 import com.adeeva.academy.utils.DataDummy;
+import com.adeeva.academy.viewmodel.ViewModelFactory;
 
 import java.util.List;
 
@@ -52,7 +53,8 @@ public class AcademyFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getActivity() != null) {
-            AcademyViewModel viewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(AcademyViewModel.class);
+            ViewModelFactory factory = ViewModelFactory.getInstance(getActivity());
+            AcademyViewModel viewModel = new ViewModelProvider(this, factory).get(AcademyViewModel.class);
             List<CourseEntity> courses = viewModel.getCourses();
 
             AcademyAdapter academyAdapter = new AcademyAdapter();

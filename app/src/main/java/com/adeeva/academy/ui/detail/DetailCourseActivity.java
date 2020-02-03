@@ -9,6 +9,7 @@ import com.adeeva.academy.data.ModuleEntity;
 import com.adeeva.academy.ui.reader.CourseReaderActivity;
 import com.adeeva.academy.utils.DataDummy;
 import com.adeeva.academy.utils.GlideApp;
+import com.adeeva.academy.viewmodel.ViewModelFactory;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -60,7 +61,8 @@ public class DetailCourseActivity extends AppCompatActivity {
 
         DetailCourseAdapter adapter = new DetailCourseAdapter();
 
-        DetailCourseViewModel viewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(DetailCourseViewModel.class);
+        ViewModelFactory factory = ViewModelFactory.getInstance(this);
+        DetailCourseViewModel viewModel = new ViewModelProvider(this, factory).get(DetailCourseViewModel.class);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

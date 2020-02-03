@@ -17,25 +17,6 @@ public class ModuleResponse implements Parcelable {
         this.position = position;
     }
 
-    protected ModuleResponse(Parcel in) {
-        moduleId = in.readString();
-        courseId = in.readString();
-        title = in.readString();
-        position = in.readInt();
-    }
-
-    public static final Creator<ModuleResponse> CREATOR = new Creator<ModuleResponse>() {
-        @Override
-        public ModuleResponse createFromParcel(Parcel in) {
-            return new ModuleResponse(in);
-        }
-
-        @Override
-        public ModuleResponse[] newArray(int size) {
-            return new ModuleResponse[size];
-        }
-    };
-
     public String getModuleId() {
         return moduleId;
     }
@@ -75,9 +56,28 @@ public class ModuleResponse implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(moduleId);
-        dest.writeString(courseId);
-        dest.writeString(title);
-        dest.writeInt(position);
+        dest.writeString(this.moduleId);
+        dest.writeString(this.courseId);
+        dest.writeString(this.title);
+        dest.writeInt(this.position);
     }
+
+    private ModuleResponse(Parcel in) {
+        this.moduleId = in.readString();
+        this.courseId = in.readString();
+        this.title = in.readString();
+        this.position = in.readInt();
+    }
+
+    public static final Creator<ModuleResponse> CREATOR = new Creator<ModuleResponse>() {
+        @Override
+        public ModuleResponse createFromParcel(Parcel source) {
+            return new ModuleResponse(source);
+        }
+
+        @Override
+        public ModuleResponse[] newArray(int size) {
+            return new ModuleResponse[size];
+        }
+    };
 }

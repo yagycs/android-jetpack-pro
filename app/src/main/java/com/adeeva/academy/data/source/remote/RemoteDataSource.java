@@ -16,22 +16,23 @@ public class RemoteDataSource {
         this.jsonHelper = jsonHelper;
     }
 
-    public static RemoteDataSource getInstance(JsonHelper helper){
-        if (INSTANCE == null){
+    public static RemoteDataSource getInstance(JsonHelper helper) {
+        if (INSTANCE == null) {
             INSTANCE = new RemoteDataSource(helper);
         }
         return INSTANCE;
     }
 
-    public List<CourseResponse> getAllCourses(){
+    public List<CourseResponse> getAllCourses() {
         return jsonHelper.loadCourses();
     }
 
-    public List<ModuleResponse> getModules(String courseId){
+    public List<ModuleResponse> getModules(String courseId) {
         return jsonHelper.loadModule(courseId);
     }
 
-    public ContentResponse getContent(String moduleId){
+    public ContentResponse getContent(String moduleId) {
         return jsonHelper.loadContent(moduleId);
     }
+
 }

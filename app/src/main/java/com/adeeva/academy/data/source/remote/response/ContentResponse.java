@@ -2,7 +2,6 @@ package com.adeeva.academy.data.source.remote.response;
 
 // Kelas untuk membaca JSON jadi Array
 public class ContentResponse {
-
     private String moduleId;
     private String content;
 
