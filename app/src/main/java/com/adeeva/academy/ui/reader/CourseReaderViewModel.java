@@ -1,11 +1,12 @@
 package com.adeeva.academy.ui.reader;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.adeeva.academy.data.source.local.entity.ModuleEntity;
 import com.adeeva.academy.data.AcademyRepository;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CourseReaderViewModel extends ViewModel {
 
@@ -25,11 +26,11 @@ public class CourseReaderViewModel extends ViewModel {
         this.moduleId = moduleId;
     }
 
-    public ArrayList<ModuleEntity> getModules() {
+    public LiveData<List<ModuleEntity>> getModules() {
         return academyRepository.getAllModulesByCourse(courseId);
     }
 
-    public ModuleEntity getSelectedModule() {
+    public LiveData<ModuleEntity> getSelectedModule() {
         return academyRepository.getContent(courseId, moduleId);
     }
 }

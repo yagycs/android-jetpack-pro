@@ -53,14 +53,20 @@ public class AcademyFragment extends Fragment {
         if (getActivity() != null) {
             ViewModelFactory factory = ViewModelFactory.getInstance(getActivity());
             AcademyViewModel viewModel = new ViewModelProvider(this, factory).get(AcademyViewModel.class);
-            List<CourseEntity> courses = viewModel.getCourses();
 
             AcademyAdapter academyAdapter = new AcademyAdapter();
-            academyAdapter.setCourses(courses);
+            progressBar.setVisibility(View.VISIBLE);
+            viewModel.getCourses().observe(this, courses -> {
+                        progressBar.setVisibility(View.GONE);
+                        academyAdapter.setCourses(courses);
+                        academyAdapter.notifyDataSetChanged();
+                    }
+            );
 
             rvCourse.setLayoutManager(new LinearLayoutManager(getContext()));
             rvCourse.setHasFixedSize(true);
             rvCourse.setAdapter(academyAdapter);
         }
     }
+
 }

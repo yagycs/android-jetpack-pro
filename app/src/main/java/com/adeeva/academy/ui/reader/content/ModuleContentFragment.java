@@ -3,20 +3,20 @@ package com.adeeva.academy.ui.reader.content;
 
 import android.os.Bundle;
 
-        import androidx.annotation.NonNull;
-        import androidx.annotation.Nullable;
-        import androidx.fragment.app.Fragment;
-        import androidx.lifecycle.ViewModelProvider;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.webkit.WebView;
-        import android.widget.ProgressBar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.ProgressBar;
 
-        import com.adeeva.academy.R;
+import com.adeeva.academy.R;
 import com.adeeva.academy.data.source.local.entity.ModuleEntity;
-        import com.adeeva.academy.ui.reader.CourseReaderViewModel;
+import com.adeeva.academy.ui.reader.CourseReaderViewModel;
 import com.adeeva.academy.viewmodel.ViewModelFactory;
 
 
@@ -53,13 +53,19 @@ public class ModuleContentFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (getActivity() != null) {
-            ViewModelFactory factory = ViewModelFactory.getInstance(requireActivity());
-            //Jika Anda ganti requireActivity() dengan this, maka Fragment tidak akan mengambil ViewModel dari Activity tetapi akan membuat ViewModel baru.
-            CourseReaderViewModel viewModel = new ViewModelProvider(requireActivity(), factory).get(CourseReaderViewModel.class);
-            ModuleEntity module = viewModel.getSelectedModule();
-            populateWebView(module);
-        }
+        ViewModelFactory factory = ViewModelFactory.getInstance(requireActivity());
+        //Jika Anda ganti requireActivity() dengan this, maka Fragment tidak akan mengambil ViewModel dari Activity tetapi akan membuat ViewModel baru.
+        CourseReaderViewModel viewModel = new ViewModelProvider(requireActivity(), factory).get(CourseReaderViewModel.class);
+
+
+        progressBar.setVisibility(View.VISIBLE);
+        viewModel.getSelectedModule().observe(this, module -> {
+            if (module != null) {
+                progressBar.setVisibility(View.GONE);
+                populateWebView(module);
+            }
+        });
+
     }
 
     private void populateWebView(ModuleEntity module) {

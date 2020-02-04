@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -64,10 +65,14 @@ public class DetailCourseActivity extends AppCompatActivity {
             String courseId = extras.getString(EXTRA_COURSE);
             if (courseId != null) {
                 viewModel.setSelectedCourse(courseId);
-                List<ModuleEntity> modules = viewModel.getModules();
-                adapter.setModules(modules);
-                populateCourse(viewModel.getCourse());
 
+                progressBar.setVisibility(View.VISIBLE);
+                viewModel.getModules().observe(this, modules -> {
+                    progressBar.setVisibility(View.GONE);
+                    adapter.setModules(modules);
+                    adapter.notifyDataSetChanged();
+                });
+                viewModel.getCourse().observe(this, this::populateCourse);
             }
         }
 
