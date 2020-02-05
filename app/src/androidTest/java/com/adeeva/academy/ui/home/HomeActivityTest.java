@@ -1,12 +1,16 @@
 package com.adeeva.academy.ui.home;
 
+import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.rule.ActivityTestRule;
 
 import com.adeeva.academy.R;
 import com.adeeva.academy.data.source.local.entity.CourseEntity;
 import com.adeeva.academy.utils.DataDummy;
+import com.adeeva.academy.utils.EspressoIdlingResource;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -26,18 +30,25 @@ public class HomeActivityTest {
     @Rule
     public ActivityTestRule activityRule = new ActivityTestRule<>(HomeActivity.class);
 
+    @Before
+    public void setUp(){
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.getEspressoIdlingResource());
+    }
+
+    @After
+    public void tearDown(){
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getEspressoIdlingResource());
+    }
+
     @Test
     public void loadCourses() {
-        delay2seconds();
         onView(withId(R.id.rv_academy)).check(matches(isDisplayed()));
         onView(withId(R.id.rv_academy)).perform(RecyclerViewActions.scrollToPosition(dummyCourse.size()));
     }
 
     @Test
     public void loadDetailCourse() {
-        delay2seconds();
         onView(withId(R.id.rv_academy)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        delay2seconds();
         onView(withId(R.id.text_title)).check(matches(isDisplayed()));
         onView(withId(R.id.text_title)).check(matches(withText(dummyCourse.get(0).getTitle())));
         onView(withId(R.id.text_date)).check(matches(isDisplayed()));
@@ -46,39 +57,23 @@ public class HomeActivityTest {
 
     @Test
     public void loadModule() {
-        delay2seconds();
         onView(withId(R.id.rv_academy)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        delay2seconds();
         onView(withId(R.id.btn_start)).perform(click());
-        delay2seconds();
         onView(withId(R.id.rv_module)).check(matches(isDisplayed()));
     }
 
     @Test
     public void loadDetailModule() {
-        delay2seconds();
         onView(withId(R.id.rv_academy)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        delay2seconds();
         onView(withId(R.id.btn_start)).perform(click());
-        delay2seconds();
         onView(withId(R.id.rv_module)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        delay2seconds();
         onView(withId(R.id.web_view)).check(matches(isDisplayed()));
     }
 
     @Test
     public void loadBookmarks() {
         onView(withText("Bookmark")).perform(click());
-        delay2seconds();
         onView(withId(R.id.rv_bookmark)).check(matches(isDisplayed()));
         onView(withId(R.id.rv_bookmark)).perform(RecyclerViewActions.scrollToPosition(dummyCourse.size()));
-    }
-
-    private void delay2seconds() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }
