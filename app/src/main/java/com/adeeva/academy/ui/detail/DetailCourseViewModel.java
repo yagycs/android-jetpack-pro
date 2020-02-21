@@ -1,31 +1,47 @@
 package com.adeeva.academy.ui.detail;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
-import com.adeeva.academy.data.source.local.entity.CourseEntity;
-import com.adeeva.academy.data.source.local.entity.ModuleEntity;
 import com.adeeva.academy.data.AcademyRepository;
-
-import java.util.List;
+import com.adeeva.academy.data.source.local.entity.CourseEntity;
+import com.adeeva.academy.data.source.local.entity.CourseWithModule;
+import com.adeeva.academy.vo.Resource;
 
 public class DetailCourseViewModel extends ViewModel {
-    private String courseId;
+    private MutableLiveData<String> courseId = new MutableLiveData<>();
     private AcademyRepository academyRepository;
 
     public DetailCourseViewModel(AcademyRepository mAcademyRepository) {
         this.academyRepository = mAcademyRepository;
     }
 
-    public void setSelectedCourse(String courseId) {
-        this.courseId = courseId;
+    public LiveData<Resource<CourseWithModule>> courseModule = Transformations.switchMap(courseId,
+            mCourseId -> academyRepository.getCourseWithModules(mCourseId));
+
+    public String getCourseId() {
+        return courseId.getValue();
     }
 
-    public LiveData<CourseEntity> getCourse() {
-        return academyRepository.getCourseWithModules(courseId);
+    public void setCourseId(String courseId) {
+        this.courseId.setValue(courseId);
     }
 
-    public LiveData<List<ModuleEntity>> getModules() {
-        return academyRepository.getAllModulesByCourse(courseId);
+    void setBookmark() {
+        Resource<CourseWithModule> moduleResource = courseModule.getValue();
+        if (moduleResource != null) {
+            CourseWithModule courseWithModule = moduleResource.data;
+
+            if (courseWithModule != null) {
+                CourseEntity courseEntity = courseWithModule.mCourse;
+
+                // Kode di bawah menggunakan tanda seru (!),
+                // karena akan mengganti status dari apakah sudah di bookmark atau tidak menjadi apakah sudah siap dibookmark atau tidak
+                final boolean newState = !courseEntity.isBookmarked();
+                academyRepository.setCourseBookmark(courseEntity, newState);
+            }
+        }
     }
 }
