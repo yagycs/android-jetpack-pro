@@ -14,9 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dicoding.academies.R;
-import com.dicoding.academies.viewmodel.ViewModelFactory;
-
+import com.adeeva.academy.R;
+import com.adeeva.academy.viewmodel.ViewModelFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,11 +56,13 @@ public class AcademyFragment extends Fragment {
                         case LOADING:
                             progressBar.setVisibility(View.VISIBLE);
                             break;
+
                         case SUCCESS:
                             progressBar.setVisibility(View.GONE);
                             academyAdapter.setCourses(courses.data);
                             academyAdapter.notifyDataSetChanged();
                             break;
+
                         case ERROR:
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(getContext(), "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
