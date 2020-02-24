@@ -1,11 +1,11 @@
 package com.adeeva.academy.ui.reader;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.os.Bundle;
 
 import com.adeeva.academy.R;
 import com.adeeva.academy.ui.reader.content.ModuleContentFragment;
@@ -28,7 +28,7 @@ public class CourseReaderActivity extends AppCompatActivity implements CourseRea
         if (bundle != null) {
             String courseId = bundle.getString(EXTRA_COURSE_ID);
             if (courseId != null) {
-                viewModel.setSelectedCourse(courseId);
+                viewModel.setCourseId(courseId);
                 populateFragment();
             }
         }

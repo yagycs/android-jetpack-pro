@@ -39,14 +39,28 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Mo
     public void onBindViewHolder(ModuleViewHolder viewHolder, int position) {
         ModuleEntity module = listModules.get(position);
         viewHolder.bind(module);
-        viewHolder.itemView.setOnClickListener(v ->
-                listener.onItemClicked(viewHolder.getAdapterPosition(), listModules.get(viewHolder.getAdapterPosition()).getModuleId())
-        );
+        if (viewHolder.getItemViewType() == 0) {
+            viewHolder.textTitle.setTextColor(viewHolder.itemView.getContext().getResources().getColor(R.color.colorTextSecondary));
+        } else {
+            viewHolder.itemView.setOnClickListener(v ->
+                    listener.onItemClicked(viewHolder.getAdapterPosition(), listModules.get(viewHolder.getAdapterPosition()).getModuleId())
+            );
+        }
     }
 
     @Override
     public int getItemCount() {
         return listModules.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        int modulePosition = listModules.get(position).getPosition();
+        if (modulePosition == 0) return 1;
+        else if (listModules.get(modulePosition - 1).isRead()) return 1;
+        else return 0;
+
     }
 
     class ModuleViewHolder extends RecyclerView.ViewHolder {

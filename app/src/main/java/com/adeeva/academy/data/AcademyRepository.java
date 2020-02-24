@@ -49,7 +49,7 @@ public class AcademyRepository implements AcademyDataSource {
         return new NetworkBoundResource<List<CourseEntity>, List<CourseResponse>>(appExecutors) {
             @Override
             public LiveData<List<CourseEntity>> loadFromDB() {
-                return localDataSource.getAllCourses();
+                return localDataSource.getAllCourses(); // untuk membaca getAllCourse dari LocalDataSource kemudian akan diteruskan ke method shouldFetch di bawah ini
             }
 
             @Override
@@ -59,7 +59,7 @@ public class AcademyRepository implements AcademyDataSource {
 
             @Override
             public LiveData<ApiResponse<List<CourseResponse>>> createCall() {
-                return remoteDataSource.getAllCourses();
+                return remoteDataSource.getAllCourses(); // karena data dari LocalDataSource null atau empty, maka akan dilakukab pengambilan data dari RemoteDataSource dan selanjutnya akan dilakukan proses inserting pada method bagian di bawah ini
             }
 
             @Override

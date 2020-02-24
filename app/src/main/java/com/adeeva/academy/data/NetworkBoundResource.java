@@ -35,13 +35,13 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
     protected void onFetchFailed() {
     }
 
-    protected abstract LiveData<ResultType> loadFromDB();
+    protected abstract LiveData<ResultType> loadFromDB(); // untuk mengakses data dari local database
 
-    protected abstract Boolean shouldFetch(ResultType data);
+    protected abstract Boolean shouldFetch(ResultType data); // untuk mengetahui apakah perlu akses remote database atau tidak
 
-    protected abstract LiveData<ApiResponse<RequestType>> createCall();
+    protected abstract LiveData<ApiResponse<RequestType>> createCall(); // untuk mengakses remote database
 
-    protected abstract void saveCallResult(RequestType data);
+    protected abstract void saveCallResult(RequestType data); // untuk menyimpan data hasil dari remote database ke local database
 
     private void fetchFromNetwork(LiveData<ResultType> dbSource) {
 
