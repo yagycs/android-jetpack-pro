@@ -9,6 +9,7 @@ import com.adeeva.academy.data.source.local.entity.ContentEntity;
 import com.adeeva.academy.data.source.local.entity.CourseEntity;
 import com.adeeva.academy.data.source.local.entity.ModuleEntity;
 import com.adeeva.academy.utils.DataDummy;
+import com.adeeva.academy.vo.Resource;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -40,15 +41,15 @@ public class CourseReaderViewModelTest {
     private AcademyRepository academyRepository;
 
     @Mock
-    private Observer<List<ModuleEntity>> modulesObserver;
+    private Observer<Resource<List<ModuleEntity>>> modulesObserver;
 
     @Mock
-    private Observer<ModuleEntity> moduleObserver;
+    private Observer<Resource<ModuleEntity>> moduleObserver;
 
     @Before
     public void setUp() {
         viewModel = new CourseReaderViewModel(academyRepository);
-        viewModel.setSelectedCourse(courseId);
+        viewModel.setCourseId(courseId);
         viewModel.setSelectedModule(moduleId);
 
         ModuleEntity dummyModule = dummyModules.get(0);
@@ -57,35 +58,23 @@ public class CourseReaderViewModelTest {
 
     @Test
     public void getModules() {
-        MutableLiveData<List<ModuleEntity>> modules = new MutableLiveData<>();
-        modules.setValue(dummyModules);
+        MutableLiveData<Resource<List<ModuleEntity>>> modules = new MutableLiveData<>();
+        Resource<List<ModuleEntity>> resource = Resource.success(dummyModules);
+        modules.setValue(resource);
 
         when(academyRepository.getAllModulesByCourse(courseId)).thenReturn(modules);
-        List<ModuleEntity> moduleEntities = viewModel.getModules().getValue();
-        verify(academyRepository).getAllModulesByCourse(courseId);
-        assertNotNull(moduleEntities);
-        assertEquals(7, moduleEntities.size());
-
-        viewModel.getModules().observeForever(modulesObserver);
-        verify(modulesObserver).onChanged(dummyModules);
+        viewModel.modules.observeForever(modulesObserver);
+        verify(modulesObserver).onChanged(resource);
     }
 
     @Test
     public void getSelectedModule() {
-        MutableLiveData<ModuleEntity> module = new MutableLiveData<>();
-        module.setValue(dummyModules.get(0));
+        MutableLiveData<Resource<ModuleEntity>> module = new MutableLiveData<>();
+        Resource<ModuleEntity> resource = Resource.success(dummyModules.get(0));
+        module.setValue(resource);
 
-        when(academyRepository.getContent(courseId, moduleId)).thenReturn(module);
-        ModuleEntity moduleEntity = viewModel.getSelectedModule().getValue();
-        verify(academyRepository).getContent(courseId, moduleId);
-        assertNotNull(moduleEntity);
-        ContentEntity contentEntity = moduleEntity.contentEntity;
-        assertNotNull(contentEntity);
-        String content = contentEntity.getContent();
-        assertNotNull(content);
-        assertEquals(content,  dummyModules.get(0).contentEntity.getContent());
-
-        viewModel.getSelectedModule().observeForever(moduleObserver);
-        verify(moduleObserver).onChanged(dummyModules.get(0));
+        when(academyRepository.getContent(moduleId)).thenReturn(module);
+        viewModel.selectedModule.observeForever(moduleObserver);
+        verify(moduleObserver).onChanged(resource);
     }
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer;
 import com.adeeva.academy.data.AcademyRepository;
 import com.adeeva.academy.data.source.local.entity.CourseEntity;
 import com.adeeva.academy.utils.DataDummy;
+import com.adeeva.academy.vo.Resource;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -33,7 +34,7 @@ public class AcademyViewModelTest {
     private AcademyRepository academyRepository;
 
     @Mock
-    private Observer<List<CourseEntity>> observer;
+    private Observer<Resource<List<CourseEntity>>> observer;
 
     @Before
     public void setUp() {
@@ -42,12 +43,12 @@ public class AcademyViewModelTest {
 
     @Test
     public void getCourses() {
-        ArrayList<CourseEntity> dummyCourses = DataDummy.generateDummyCourses();
-        MutableLiveData<List<CourseEntity>> courses = new MutableLiveData<>();
+        Resource<List<CourseEntity>> dummyCourses = Resource.success(DataDummy.generateDummyCourses());
+        MutableLiveData<Resource<List<CourseEntity>>> courses = new MutableLiveData<>();
         courses.setValue(dummyCourses);
 
         when(academyRepository.getAllCourses()).thenReturn(courses);
-        List<CourseEntity> courseEntities = viewModel.getCourses().getValue();
+        List<CourseEntity> courseEntities = viewModel.getCourses().getValue().data;
         verify(academyRepository).getAllCourses();
         assertNotNull(courseEntities);
         assertEquals(5, courseEntities.size());
