@@ -2,6 +2,8 @@ package com.adeeva.academy.data;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
 import com.adeeva.academy.data.source.local.LocalDataSource;
 import com.adeeva.academy.data.source.local.entity.CourseEntity;
@@ -45,21 +47,26 @@ public class AcademyRepository implements AcademyDataSource {
     }
 
     @Override
-    public LiveData<Resource<List<CourseEntity>>> getAllCourses() {
-        return new NetworkBoundResource<List<CourseEntity>, List<CourseResponse>>(appExecutors) {
+    public LiveData<Resource<PagedList<CourseEntity>>> getAllCourses() {
+        return new NetworkBoundResource<PagedList<CourseEntity>, List<CourseResponse>>(appExecutors) {
             @Override
-            public LiveData<List<CourseEntity>> loadFromDB() {
-                return localDataSource.getAllCourses(); // untuk membaca getAllCourse dari LocalDataSource kemudian akan diteruskan ke method shouldFetch di bawah ini
+            public LiveData<PagedList<CourseEntity>> loadFromDB() {
+                PagedList.Config config = new PagedList.Config.Builder()
+                        .setEnablePlaceholders(false)
+                        .setInitialLoadSizeHint(4)
+                        .setPageSize(4)
+                        .build();
+                return new LivePagedListBuilder<>(localDataSource.getAllCourses(), config).build();
             }
 
             @Override
-            public Boolean shouldFetch(List<CourseEntity> data) {
+            public Boolean shouldFetch(PagedList<CourseEntity> data) {
                 return (data == null) || (data.size() == 0);
             }
 
             @Override
             public LiveData<ApiResponse<List<CourseResponse>>> createCall() {
-                return remoteDataSource.getAllCourses(); // karena data dari LocalDataSource null atau empty, maka akan dilakukab pengambilan data dari RemoteDataSource dan selanjutnya akan dilakukan proses inserting pada method bagian di bawah ini
+                return remoteDataSource.getAllCourses();
             }
 
             @Override
@@ -72,7 +79,6 @@ public class AcademyRepository implements AcademyDataSource {
                             response.getDate(),
                             false,
                             response.getImagePath());
-
                     courseList.add(course);
                 }
 
@@ -82,8 +88,13 @@ public class AcademyRepository implements AcademyDataSource {
     }
 
     @Override
-    public LiveData<List<CourseEntity>> getBookmarkedCourses() {
-        return localDataSource.getBookmarkedCourses();
+    public LiveData<PagedList<CourseEntity>> getBookmarkedCourses() {
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(4)
+                .setPageSize(4)
+                .build();
+        return new LivePagedListBuilder<>(localDataSource.getBookmarkedCourses(),config).build() ;
     }
 
     @Override

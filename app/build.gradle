@@ -49,7 +49,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
 
     // Dependencies for Paging
     implementation "androidx.paging:paging-runtime:2.1.1"
